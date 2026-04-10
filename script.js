@@ -1,61 +1,50 @@
 // add javascript here
-let guess = 0;
-let answer = 0;
-let guessCount = 0;
-let totalWins = 0;
-const scores = [];
+const levelArr = document.getElementsByName("level");
+let level, answer, score;
+const scoreArr = [];
 
 document.getElementById('playBtn').addEventListener("click", play);
 document.getElementById('guessBtn').addEventListener("click", makeGuess);
 
 
 function play(){
-    let range = 0;
-    let levels = document.getElementsByName("level");
-    for(let i=0; i<levels.length; i++){
-        if(levels[i].checked){
-            range = parseInt(levels[i].value);
-
+    score = 0;
+    for(let i = 0; i < levelArr.length; i++){
+        if(levelArr[i].checked){
+            level = levelArr[i].value;
         }
-        levels[i].disabled = true
+        levelArr[i].disabled = true;
     }
-    document.getElementById("msg").textContent = "Guess a number 1-" +range;
-    answer = Math.floor(Math.random()*range) +1;
-    guessCount = 0;
-
     guessBtn.disabled = false;
     giveUpBtn.disabled = false;
     playBtn.disabled = true;
 
+    answer = Math.floor(Math.random()*level)+1;
+    msg.innerHTML = "Guess a #1-" + level;
+    guess.placeholder = answer;
+
 }
 
 function makeGuess(){
-    let guess = parseInt(document.getElementById("guess").value);
-    if(isNaN(guess)){
-        msg.textContent = "Please enter a valid number";
+    let userGuess = parseInt(guess.value);
+    if(isNaN(userGuess) || userGuess == ""){
+        msg.innerHTML="Please enter a valid number";
         return;
     }
-    guessCount++;
-    if(guess == answer){
-        msg.textContent = "Correct! It took " + guessCount + " tries. ";
-        updateScore(guessCount);
+    score++;
+    if(userGuess < answer)
+        msg.innerHTML = "Too low, try again.";
+    else if(userGuess > answer)
+        msg.textContent = "Too high, try again.";
+    else{
+        msg.textConent = "Correct! It took " + guessCount + " tries.";
+        scoreArr.push(score);
+        updateScore();
         reset();
     }
-    else if(guess < answer){
-        msg.textContent = "Too low, try again.";
-    
-    }
-    else{
-        msg.textConent = "Too high, try again."
-    }
+}   
 
-    updateScore();
-    reset();
-
-
-}
-
-function updateScore(score){
+function updateScore(){
     scores.push(score);
     wins.textContent = "Total wins: " + scores.length;
     let sum = 0;
@@ -75,12 +64,10 @@ scores.sort(function(a,b){return a-b;});
 }
 
 function reset(){
-    msg.value = "";
+    guess.disabled = true;
     guessBtn.disabled = true;
-    giveUpBtn.disabled = true;
     playBtn.disabled = false;
-    e.disabled = false;
-    m.disabled = false;
-    h.disabled = false;
+    for(let i = 0; i<levelArr.length;i++)
+
 
 }
