@@ -1,73 +1,119 @@
-// add javascript here
-const levelArr = document.getElementsByName("level");
-let level, answer, score;
-const scoreArr = [];
+const answerState = {
+  answer: 0,
+  range: 0,
+  guessCount: 0,
+};
 
-document.getElementById('playBtn').addEventListener("click", play);
-document.getElementById('guessBtn').addEventListener("click", makeGuess);
+const scores = [];
+const msg = document.getElementById("msg");
+const guessInput = document.getElementById("guess");
+const guessBtn = document.getElementById("guessBtn");
+const giveUpBtn = document.getElementById("giveUpBtn");
+const playBtn = document.getElementById("playBtn");
+const wins = document.getElementById("wins");
+const avgScore = document.getElementById("avgScore");
+const easyLevel = document.getElementById("e");
+const medLevel = document.getElementById("m");
+const hardLevel = document.getElementById("h");
+const levelRadios = document.getElementsByName("level");
 
+playBtn.addEventListener("click", play);
+guessBtn.addEventListener("click", makeGuess);
+giveUpBtn.addEventListener("click", giveUp);
+
+defaultReset();
 
 function play(){
-    score = 0;
-    for(let i = 0; i < levelArr.length; i++){
-        if(levelArr[i].checked){
-            level = levelArr[i].value;
-        }
-        levelArr[i].disabled = true;
+  let range = 0;
+  for (let i = 0; i < levelRadios.length; i++) {
+    if (levelRadios[i].checked) {
+      range = parseInt(levelRadios[i].value, 10);
     }
-    guessBtn.disabled = false;
-    giveUpBtn.disabled = false;
-    playBtn.disabled = true;
+    levelRadios[i].disabled = true;
+  }
 
-    answer = Math.floor(Math.random()*level)+1;
-    msg.innerHTML = "Guess a #1-" + level;
-    guess.placeholder = answer;
+  if (range <= 0) {
+    msg.textContent = "Please select a difficulty level.";
+    return;
+  }
 
+  answerState.range = range;
+  answerState.answer = Math.floor(Math.random() * range) + 1;
+  answerState.guessCount = 0;
+
+  msg.textContent = "Guess a number 1-" + range;
+  guessInput.value = "";
+
+  guessBtn.disabled = false;
+  giveUpBtn.disabled = false;
+  playBtn.disabled = true;
 }
 
 function makeGuess(){
-    let userGuess = parseInt(guess.value);
-    if(isNaN(userGuess) || userGuess == ""){
-        msg.innerHTML="Please enter a valid number";
-        return;
-    }
-    score++;
-    if(userGuess < answer)
-        msg.innerHTML = "Too low, try again.";
-    else if(userGuess > answer)
-        msg.textContent = "Too high, try again.";
-    else{
-        msg.textConent = "Correct! It took " + guessCount + " tries.";
-        scoreArr.push(score);
-        updateScore();
-        reset();
-    }
-}   
+  const guess = parseInt(guessInput.value, 10);
+  if (isNaN(guess)) {
+    msg.textContent = "Please enter a valid number.";
+    return;
+  }
 
-function updateScore(){
-    scores.push(score);
-    wins.textContent = "Total wins: " + scores.length;
-    let sum = 0;
-    for(let i = 0; i < scores.length; i++){
-        sum += scores[i]; // sum = sum + scores[i]
-    }
-    avgScore.textContent = "Average Score: " + (sum/scores.length).toFixed(1);
+  if (guess < 1 || guess > answerState.range) {
+    msg.textContent = "Enter a number between 1 and " + answerState.range + ".";
+    return;
+  }
 
-scores.sort(function(a,b){return a-b;});
+  answerState.guessCount++;
 
-    let lb = document.getElementsByName("leaderboard");
-    for(let i = 0; i < lb.length; i++){
-        if(i < scores.length){
-            lb[i].textConent = scores[i];
-        }
-    }
+  if (guess === answerState.answer) {
+    msg.textContent = "Correct! It took " + answerState.guessCount + " tries.";
+    updateScore(answerState.guessCount);
+    defaultReset("Select a Level");
+    return;
+  }
+
+  if (guess < answerState.answer) {
+    msg.textContent = "Too low, try again.";
+  } else {
+    msg.textContent = "Too high, try again.";
+  }
 }
 
-function reset(){
-    guess.disabled = true;
-    guessBtn.disabled = true;
-    playBtn.disabled = false;
-    for(let i = 0; i<levelArr.length;i++)
+function giveUp(){
+  if (answerState.answer === 0 || answerState.range === 0) {
+    msg.textContent = "No game in progress. Choose a level and click Play.";
+    return;
+  }
 
+  msg.textContent = "You gave up. The answer was " + answerState.answer + ".";
+  defaultReset("You gave up. The answer was " + answerState.answer + ".");
+}
 
+function updateScore(score) {
+  scores.push(score);
+  wins.textContent = "Total wins: " + scores.length;
+
+  let sum = 0;
+  for (let i = 0; i < scores.length; i++) {
+    sum += scores[i];
+  }
+  avgScore.textContent = "Average Score: " + (sum / scores.length).toFixed(1);
+
+  scores.sort(function (a, b) {
+    return a - b;
+  });
+
+  const lb = document.getElementsByName("leaderboard");
+  for (let i = 0; i < lb.length; i++) {
+    lb[i].textContent = i < scores.length ? scores[i] : "";
+  }
+}
+
+function defaultReset(message = "Select a Level") {
+  guessInput.value = "";
+  guessBtn.disabled = true;
+  giveUpBtn.disabled = true;
+  playBtn.disabled = false;
+  easyLevel.disabled = false;
+  medLevel.disabled = false;
+  hardLevel.disabled = false;
+  msg.textContent = message;
 }
