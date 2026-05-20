@@ -2,9 +2,9 @@ const levelArr = document.getElementsByName("level");
 let level, answer, score;
 const scoreArr = [];
 
-playBtn.addEventListener("click", play);
-guessBtn.addEventListener("click", makeGuess);
-
+document.getElementById("playBtn").addEventListener("click", play);
+document.getElementById("guessBtn").addEventListener("click", makeGuess);
+document.getElementById("giveUpBtn").addEventListener("click", giveUp);
 date.innerHTML = time();
 
 function time(){
@@ -20,12 +20,12 @@ level = levelArr[i].value;
 }
 levelArr[i].disabled = true;
 }
-playBtn.disabled = true;
+playBtn.disabled = false;
 guess.disabled = false;
 guessBtn.disabled = false;
 
 answer = Math.floor(Math.random() * level) + 1;
-MSG.innerHTML = "Guess a number 1 through " + level;
+msg.innerHTML = "Guess a number 1 through " + level;
 guess.placeholder = answer;
 }
 
@@ -33,18 +33,18 @@ function makeGuess() {
 let userGuess = parseInt(guess.value);
 
 if (isNaN(userGuess) || guess.value === "") {
-MSG.innerHTML = "Invalid guess, a number 1 through " + level;
+msg.innerHTML = "Invalid guess, a number 1 through " + level;
 return;
 }
 
 score++;
 
 if (userGuess < answer) {
-MSG.innerHTML = "Too low, guess a number 1 through " + level;
+msg.innerHTML = "Too low, guess a number 1 through " + level;
 } else if (userGuess > answer) {
-MSG.innerHTML = "Too high, guess a number 1 through " + level;
+msg.innerHTML = "Too high, guess a number 1 through " + level;
 } else {
-MSG.innerHTML = "Correct! You win. It took " + score + " tries.";
+msg.innerHTML = "Correct! You win. It took " + score + " tries.";
 scoreArr.push(score);
 updateScore();
 }
