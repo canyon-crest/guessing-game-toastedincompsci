@@ -14,11 +14,11 @@ function time(){
 
 function play() {
 score = 0;
-for (let i = 0; i < levelArray.length; i++) {
-if (levelArray[i].checked) {
-level = levelArray[i].value;
+for (let i = 0; i < levelArr.length; i++) {
+if (levelArr[i].checked) {
+level = levelArr[i].value;
 }
-levelArray[i].disabled = true;
+levelArr[i].disabled = true;
 }
 playBtn.disabled = true;
 guess.disabled = false;
@@ -45,36 +45,36 @@ MSG.innerHTML = "Too low, guess a number 1 through " + level;
 MSG.innerHTML = "Too high, guess a number 1 through " + level;
 } else {
 MSG.innerHTML = "Correct! You win. It took " + score + " tries.";
-scoreArray.push(score);
+scoreArr.push(score);
 updateScore();
 }
 }
 
 function updateScore() {
-wins.innerHTML = "Total wins: " + scoreArray.length;
+wins.innerHTML = "Total wins: " + scoreArr.length;
 
 let lb = document.getElementsByName("leaderboard");
-scoreArray.sort((a, b) => a - b);
+scoreArr.sort((a, b) => a - b);
 
 let sum = 0;
-for (let i = 0; i < scoreArray.length; i++) {
+for (let i = 0; i < scoreArr.length; i++) {
 if (i < lb.length) {
-lb[i].innerHTML = scoreArray[i];
+lb[i].innerHTML = scoreArr[i];
 }
-sum += scoreArray[i];
+sum += scoreArr[i];
 }
 
-let avg = sum / scoreArray.length;
-AVG_score.innerHTML = "Average score: " + avg.toFixed(2);
+let avg = sum / scoreArr.length;
+avgScore.innerHTML = "Average score: " + avg.toFixed(2);
 }
 
 function reset() {
 guess.disabled = true;
-guessBTN.disabled = true;
-playBTN.disabled = false;
+guessBtn.disabled = true;
+playBtn.disabled = false;
 
-for (let i = 0; i < levelArray.length; i++) {
-levelArray[i].disabled = false;
+for (let i = 0; i < levelArr.length; i++) {
+levelArr[i].disabled = false;
 }
 
 guess.value = "";
