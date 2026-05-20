@@ -1,46 +1,45 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>JavaScript Number Guessing Game</title>
-    <script src="script.js" defer></script>
-  </head>
-  <body>
-    <p id="currentDate"></p>
-    <p id="liveTime"></p>
 
-    <h3>Player</h3>
-    <label for="playerName">Name:</label>
-    <input type="text" id="playerName" placeholder="Player">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Guessing Game</title>
+  <link href="styles.css" rel="stylesheet" type="text/css"/>
+</head>
 
-    <h3>Level</h3>
-    <input type="radio" name="level" id="e" value="3" checked>
-    <label for="e">Easy</label>
-    <input type="radio" name="level" id="m" value="10">
-    <label for="m">Medium</label>
-    <input type="radio" name="level" id="h" value="100">
-    <label for="h">Hard</label>
+<body>
+  <p id="date"></p>
+  <h3>Level</h3>
 
-    <button id="playBtn">Play</button>
+  <input type="radio" name="level" id="easy" value="3" checked>
+  <label for="easy">Easy</label>
+  <input type="radio" name="level" id="medium" value="10">
+  <label for="medium">Medium</label>
+  <input type="radio" name="level" id="hard" value="100">
+  <label for="hard">Hard</label>
 
-    <h3 id="msg">Select a Level</h3>
+  <button id="playBtn">Play</button>
 
-    <input type="text" id="guess" placeholder="Enter your guess">
-    <button id="guessBtn" disabled>Guess</button>
-    <button id="giveUpBtn" disabled>Give Up</button>
+  <h3 id="MSG">Select a level and press Play</h3>
 
-    <p id="roundTimer">Round Time: 00:00</p>
+  <input type="text" id="guess" disabled placeholder="Enter your guess">
+  <button id="guessBtn" disabled>Guess</button>
 
-    <h3>Stats</h3>
-    <p id="gamesCompleted">Games Completed: 0</p>
-    <p id="avgScore">Average Score: </p>
-    <p id="fastest">Fastest Game: </p>
-    <p id="avgTime">Average Time: </p>
+  <p id="timer">Time: 0 seconds</p>
 
-    <h3>Leaderboard</h3>
-    <ol>
-      <li name="leaderboard">100</li>
-      <li name="leaderboard">100</li>
-      <li name="leaderboard">100</li>
-    </ol>
-  </body>
+  <h3>Stats</h3>
+  <p id="wins">Total wins: 0</p>
+  <p id="avgScore">Average score: N/A</p>
+
+  <h3>Leaderboard</h3>
+  <ol id="leaderboard">
+    <li class="leaderboard-item">—</li>
+    <li class="leaderboard-item">—</li>
+    <li class="leaderboard-item">—</li>
+  </ol>
+
+  <script src="script.js"></script>
+</body>
+
 </html>
