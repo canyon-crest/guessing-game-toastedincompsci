@@ -11,29 +11,31 @@ let startTime;
 
 
 function play() {
-let range = 0;
-  for (let i = 0; i < levelRadios.length; i++) {
-    if (levelRadios[i].checked) {
-      range = parseInt(levelRadios[i].value, 10);
-    }
-    levelRadios[i].disabled = true;
-  }
+score = 0;
+for (let i = 0; i < levelArr.length; i++) {
+if (levelArr[i].checked) {
+range = levelArr[i].value;
+}
+levelArr[i].disabled = true;
+}
+playBtn.disabled = false;
+guess.disabled = false;
+guessBtn.disabled = false;
+giveUpBtn.disabled = false;
 
-  if (range <= 0) {
-    msg.textContent = "Please select a difficulty level.";
-    return;
-  }
+answer = Math.floor(Math.random() * range) + 1;
+msg.innerHTML = "Guess a number 1 through " + range;
+guess.placeholder = answer;
+}
 
-  answerState.range = range;
-  answerState.answer = Math.floor(Math.random() * range) + 1;
-  answerState.guessCount = 0;
+function makeGuess() {
+let userGuess = parseInt(guess.value);
 
-  msg.textContent = "Guess a number 1-" + range;
-  guessInput.value = "";
+if (isNaN(userGuess) || guess.value === "") {
+msg.innerHTML = "Invalid guess, a number 1 through " + range;
+return;
 
-  guessBtn.disabled = false;
-  giveUpBtn.disabled = false;
-  playBtn.disabled = true;
+
 }
 
 score++;
@@ -48,7 +50,7 @@ scoreArr.push(score);
 updateScore();
  reset();
 }
-
+}
 
 
 function updateScore() {
