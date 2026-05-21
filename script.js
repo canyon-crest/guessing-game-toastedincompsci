@@ -5,11 +5,10 @@ const scoreArr = [];
 document.getElementById("playBtn").addEventListener("click", play);
 document.getElementById("guessBtn").addEventListener("click", makeGuess);
 document.getElementById("giveUpBtn").addEventListener("click", giveUp);
-date.innerHTML = time();
+date = time();
 
 function time(){
-  let d = new Date();
-  return d;
+  return new Date();
 }
 
 function play() {
@@ -23,6 +22,7 @@ levelArr[i].disabled = true;
 playBtn.disabled = false;
 guess.disabled = false;
 guessBtn.disabled = false;
+giveUpBtn.disabled = false;
 
 answer = Math.floor(Math.random() * level) + 1;
 msg.innerHTML = "Guess a number 1 through " + level;
@@ -47,6 +47,7 @@ msg.innerHTML = "Too high, guess a number 1 through " + level;
 msg.innerHTML = "Correct! You win. It took " + score + " tries.";
 scoreArr.push(score);
 updateScore();
+ reset();
 }
 }
 
@@ -68,10 +69,25 @@ let avg = sum / scoreArr.length;
 avgScore.innerHTML = "Average score: " + avg.toFixed(2);
 }
 
+function giveUp() {
+  if (!answer || !level) {
+    msg.innerHTML = "No game in progress. Choose a level and click Play.";
+    return;
+  }
+
+  msg.innerHTML = "You gave up. The answer was " + answer + ".";
+  reset();
+}
+
+
+
+
 function reset() {
 guess.disabled = true;
 guessBtn.disabled = true;
 playBtn.disabled = false;
+giveUpBtn.disabled = true;
+
 
 for (let i = 0; i < levelArr.length; i++) {
 levelArr[i].disabled = false;
