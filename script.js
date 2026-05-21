@@ -39,22 +39,19 @@ return;
 
 score++;
 
-if (Math.abs(userGuess - answer) <= 2) {
+if (userGuess === answer) {
+  msg.innerHTML = "Correct! You win. It took " + score + " tries.";
+  scoreArr.push(score);
+  updateScore();
+  reset();
+} else if (Math.abs(userGuess - answer) <= 2) {
   msg.innerHTML = "You're hot! Guess a number 1 through " + range;
 } else if (Math.abs(userGuess - answer) <= 5) {
   msg.innerHTML = "You're warm. Guess a number 1 through " + range;
-}
-
-if (userGuess < answer) {
-msg.innerHTML = "Too low, guess a number 1 through " + range;
-} else if (userGuess > answer) {
-msg.innerHTML = "Too high, guess a number 1 through " + range;
+} else if (userGuess < answer) {
+  msg.innerHTML = "Too low, guess a number 1 through " + range;
 } else {
-msg.innerHTML = "Correct! You win. It took " + score + " tries.";
-
-scoreArr.push(score);
-updateScore();
- reset();
+  msg.innerHTML = "Too high, guess a number 1 through " + range;
 }
 }
 
