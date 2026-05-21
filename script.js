@@ -48,7 +48,7 @@ scoreArr.push(score);
 updateScore();
  reset();
 }
-}
+
 
 
 function updateScore() {
