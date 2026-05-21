@@ -6,10 +6,9 @@ document.getElementById("playBtn").addEventListener("click", play);
 document.getElementById("guessBtn").addEventListener("click", makeGuess);
 document.getElementById("giveUpBtn").addEventListener("click", giveUp);
 date = time();
+let timerId;
+let startTime;
 
-function time(){
-  return new Date();
-}
 
 function play() {
 score = 0;
@@ -35,6 +34,12 @@ let userGuess = parseInt(guess.value);
 if (isNaN(userGuess) || guess.value === "") {
 msg.innerHTML = "Invalid guess, a number 1 through " + level;
 return;
+
+timerId = setInterval(() => {
+  startTime++;
+}, 1000);
+
+
 }
 
 score++;
@@ -50,6 +55,14 @@ updateScore();
  reset();
 }
 }
+
+function updateTimer() {
+  const seconds = Math.floor((Date.now() - startTime) / 1000);
+  timer.textContent = "Time: " + seconds + " seconds";
+}
+
+
+
 
 function updateScore() {
 wins.innerHTML = "Total wins: " + scoreArr.length;
