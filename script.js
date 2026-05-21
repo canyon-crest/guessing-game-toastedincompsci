@@ -5,7 +5,6 @@ const scoreArr = [];
 document.getElementById("playBtn").addEventListener("click", play);
 document.getElementById("guessBtn").addEventListener("click", makeGuess);
 document.getElementById("giveUpBtn").addEventListener("click", giveUp);
-date = timer();
 let timerId;
 let startTime;
 
@@ -40,12 +39,19 @@ return;
 
 score++;
 
+if (Math.abs(userGuess - answer) <= 2) {
+  msg.innerHTML = "You're hot! Guess a number 1 through " + range;
+} else if (Math.abs(userGuess - answer) <= 5) {
+  msg.innerHTML = "You're warm. Guess a number 1 through " + range;
+}
+
 if (userGuess < answer) {
-msg.innerHTML = "Too low, guess a number 1 through " + level;
+msg.innerHTML = "Too low, guess a number 1 through " + range;
 } else if (userGuess > answer) {
-msg.innerHTML = "Too high, guess a number 1 through " + level;
+msg.innerHTML = "Too high, guess a number 1 through " + range;
 } else {
 msg.innerHTML = "Correct! You win. It took " + score + " tries.";
+
 scoreArr.push(score);
 updateScore();
  reset();
