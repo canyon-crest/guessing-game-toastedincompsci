@@ -14,12 +14,19 @@ document.getElementById("giveUpBtn").addEventListener("click", giveUp);
 document.getElementById("date").innerHTML = time();
 let timerId;
 let startTime;
+setInterval(function() {
+  document.getElementById("date").innerHTML = time();
+}, 1000);
+
 
 function time() {
   const date = new Date();
+  
   const month = date.toLocaleString('default', { month: 'long' });
   const day = date.getDate();
   const year = date.getFullYear();
+  
+  const seconds = date.getSeconds();
   
   let suffix = 'th';
   if (day < 11 || day > 13) {
@@ -29,7 +36,8 @@ function time() {
       case 3: suffix = 'rd'; break;
     }
   }
-  return `${month} ${day}${suffix}, ${year}`;
+  
+  return `${month} ${day}${suffix}, ${year} ${seconds}s`;
 }
 
 function play() {
