@@ -1,31 +1,34 @@
 const levelArr = document.getElementsByName("level");
-let level, answer, score, range; // Added range here
+let level, answer, score, range;
 const scoreArr = [];
 
-// 1. Prompt for name immediately and capitalize correctly
+
+const timeArr = []; 
+
+
 const rawName = prompt("What is your name?");
 const playerName = rawName 
   ? rawName.charAt(0).toUpperCase() + rawName.slice(1).toLowerCase() 
   : "Player";
 
+
 document.getElementById("playBtn").addEventListener("click", play);
 document.getElementById("guessBtn").addEventListener("click", makeGuess);
 document.getElementById("giveUpBtn").addEventListener("click", giveUp);
+
+
 document.getElementById("date").innerHTML = time();
-let timerId;
-let startTime;
 setInterval(function() {
   document.getElementById("date").innerHTML = time();
 }, 1000);
 
+let startTime; 
 
 function time() {
   const date = new Date();
-  
   const month = date.toLocaleString('default', { month: 'long' });
   const day = date.getDate();
   const year = date.getFullYear();
-  
   const seconds = date.getSeconds();
   
   let suffix = 'th';
@@ -36,7 +39,6 @@ function time() {
       case 3: suffix = 'rd'; break;
     }
   }
-  
   return `${month} ${day}${suffix}, ${year} ${seconds}s`;
 }
 
@@ -55,7 +57,9 @@ function play() {
 
   answer = Math.floor(Math.random() * range) + 1;
   
-  // Autograder requirement: Use formatted name here
+
+  startTime = new Date().getTime();
+
   msg.innerHTML = playerName + ", guess a number 1 through " + range;
   guess.placeholder = answer;
 }
@@ -70,17 +74,18 @@ function makeGuess() {
 
   score++;
 
-  // 2. Exact match check (Win condition)
   if (userGuess === answer) {
-    // Autograder requirement: Use formatted name here
     msg.innerHTML = "Correct! You win, " + playerName + ". It took " + score + " tries.";
+    
+    const endMs = new Date().getTime();
+    updateTimers(endMs);
+
     scoreArr.push(score);
     updateScore();
     reset();
-    return; // Stop function execution here since they won
+    return;
   }
 
-  // 3. Temperature check using Math.abs
   let diff = Math.abs(userGuess - answer);
   let tempMessage = "";
 
@@ -92,12 +97,29 @@ function makeGuess() {
     tempMessage = "You're cold. ";
   }
 
-  // 4. Direction check (Too high / Too low) combined with temperature
+ 
   if (userGuess < answer) {
     msg.innerHTML = tempMessage + "Too low, guess a number 1 through " + range;
   } else if (userGuess > answer) {
     msg.innerHTML = tempMessage + "Too high, guess a number 1 through " + range;
   }
+}
+
+
+function updateTimers(endMs) {
+  const elapsedSeconds = (endMs - startTime) / 1000;
+  timeArr.push(elapsedSeconds);
+
+
+  const fastestTime = Math.min(...timeArr);
+  document.getElementById("fastest").innerHTML = fastestTime.toFixed(2);
+
+  let totalTime = 0;
+  for (let i = 0; i < timeArr.length; i++) {
+    totalTime += timeArr[i];
+  }
+  const avgRoundTime = totalTime / timeArr.length;
+  document.getElementById("avgTime").innerHTML = avgRoundTime.toFixed(2);
 }
 
 function updateScore() {
@@ -125,6 +147,11 @@ function giveUp() {
   }
 
   msg.innerHTML = "You gave up. The answer was " + answer + ".";
+  
+  
+  const endMs = new Date().getTime();
+  updateTimers(endMs);
+
   reset();
 }
 
