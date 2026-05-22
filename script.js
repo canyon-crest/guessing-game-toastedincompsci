@@ -5,8 +5,21 @@ const scoreArr = [];
 document.getElementById("playBtn").addEventListener("click", play);
 document.getElementById("guessBtn").addEventListener("click", makeGuess);
 document.getElementById("giveUpBtn").addEventListener("click", giveUp);
+document.getElementById("date").innerHTML = time();
 let timerId;
 let startTime;
+
+
+function time() {
+  const date = new Date();
+  
+  const month = date.toLocaleString('default', { month: 'long' });
+  const day = date.getDate();
+  const year = date.getFullYear();
+  
+  return `${month} ${day}, ${year}`;
+}
+console.log(time()); 
 
 
 function play() {
@@ -78,7 +91,7 @@ avgScore.innerHTML = "Average score: " + avg.toFixed(2);
 }
 
 function giveUp() {
-  if (!answer || !level) {
+  if (!answer || !range) {
     msg.innerHTML = "No game in progress. Choose a level and click Play.";
     return;
   }
