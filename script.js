@@ -17,7 +17,7 @@ range = levelArr[i].value;
 }
 levelArr[i].disabled = true;
 }
-playBtn.disabled = false;
+playBtn.disabled = true;
 guess.disabled = false;
 guessBtn.disabled = false;
 giveUpBtn.disabled = false;
@@ -39,19 +39,22 @@ return;
 
 score++;
 
-if (userGuess === answer) {
-  msg.innerHTML = "Correct! You win. It took " + score + " tries.";
-  scoreArr.push(score);
-  updateScore();
-  reset();
-} else if (Math.abs(userGuess - answer) <= 2) {
+if (Math.abs(userGuess - answer) <= 2) {
   msg.innerHTML = "You're hot! Guess a number 1 through " + range;
 } else if (Math.abs(userGuess - answer) <= 5) {
   msg.innerHTML = "You're warm. Guess a number 1 through " + range;
-} else if (userGuess < answer) {
-  msg.innerHTML = "Too low, guess a number 1 through " + range;
+}
+
+if (userGuess < answer) {
+msg.innerHTML = "Too low, guess a number 1 through " + range;
+} else if (userGuess > answer) {
+msg.innerHTML = "Too high, guess a number 1 through " + range;
 } else {
-  msg.innerHTML = "Too high, guess a number 1 through " + range;
+msg.innerHTML = "Correct! You win. It took " + score + " tries.";
+
+scoreArr.push(score);
+updateScore();
+ reset();
 }
 }
 
