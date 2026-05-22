@@ -1,21 +1,16 @@
 const levelArr = document.getElementsByName("level");
 let level, answer, score, range;
 const scoreArr = [];
-
-
 const timeArr = []; 
-
 
 const rawName = prompt("What is your name?");
 const playerName = rawName 
   ? rawName.charAt(0).toUpperCase() + rawName.slice(1).toLowerCase() 
   : "Player";
 
-
 document.getElementById("playBtn").addEventListener("click", play);
 document.getElementById("guessBtn").addEventListener("click", makeGuess);
 document.getElementById("giveUpBtn").addEventListener("click", giveUp);
-
 
 document.getElementById("date").innerHTML = time();
 setInterval(function() {
@@ -57,7 +52,6 @@ function play() {
 
   answer = Math.floor(Math.random() * range) + 1;
   
-
   startTime = new Date().getTime();
 
   msg.innerHTML = playerName + ", guess a number 1 through " + range;
@@ -97,7 +91,6 @@ function makeGuess() {
     tempMessage = "You're cold. ";
   }
 
- 
   if (userGuess < answer) {
     msg.innerHTML = tempMessage + "Too low, guess a number 1 through " + range;
   } else if (userGuess > answer) {
@@ -105,11 +98,9 @@ function makeGuess() {
   }
 }
 
-
 function updateTimers(endMs) {
   const elapsedSeconds = (endMs - startTime) / 1000;
   timeArr.push(elapsedSeconds);
-
 
   const fastestTime = Math.min(...timeArr);
   document.getElementById("fastest").innerHTML = fastestTime.toFixed(2);
@@ -148,10 +139,14 @@ function giveUp() {
 
   msg.innerHTML = "You gave up. The answer was " + answer + ".";
   
+
+  score = parseInt(range);
+  scoreArr.push(score);
   
   const endMs = new Date().getTime();
   updateTimers(endMs);
 
+  updateScore();
   reset();
 }
 
