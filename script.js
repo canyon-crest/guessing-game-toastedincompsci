@@ -17,9 +17,18 @@ function time() {
   const day = date.getDate();
   const year = date.getFullYear();
   
-  return `${month} ${day}, ${year}`;
+  let suffix = 'th';
+  if (day < 11 || day > 13) {
+    switch (day % 10) {
+      case 1: suffix = 'st'; break;
+      case 2: suffix = 'nd'; break;
+      case 3: suffix = 'rd'; break;
+    }
+  }
+  
+  return `${month} ${day}${suffix}, ${year}`;
 }
-console.log(time()); 
+
 
 
 function play() {
