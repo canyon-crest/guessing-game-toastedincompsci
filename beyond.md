@@ -1,0 +1,1 @@
+I shifted the text of the guessing game to the center and made the backgrounds a shade of purple. The light mode had light purple backgrounds and dark purple text and dark mode had the vice versa. 
